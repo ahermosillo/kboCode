@@ -25,26 +25,27 @@ from integrations import long_integration, short_integration
 
 # make function needed for multiprocessing
 def do_integration(intN):
-	# first do long integration 
-	# arguments are i, minA, maxA, minE, maxE, maxI, totalTime, intervalTime, Nparticles
-	# returns minA, maxA, minE, maxE, maxI, Nparticles, totalTime, filename
-	amin, amax, emin, emax, imax, nParticles, totTime, filname = long_integration(intN, 38.81, 39.81, 0.0, 0.6, 35.0, 1e8, 1e7, 500)
+        # first do long integration 
+        # arguments are i, minA, maxA, minE, maxE, maxI, totalTime, intervalTime, Nparticles
+        # returns minA, maxA, minE, maxE, maxI, Nparticles, totalTime, filename
+        amin, amax, emin, emax, imax, nParticles, totTime, filname = long_integration(intN, 38.81, 39.81, 0.0, 0.6, 35.0, 6, 20)
 
-	#now do short integration
-	# arguments:i, xminA, maxA, minE, maxE, maxI, nParticles, startTime, shortTime, fileName
-	# return sim right now
-	# we want to do 3 short integrations starting with time 0, 10%totalTime, and totalTime
-	shortSim0 = short_integration(intN, amin, amax, emin, emax, imax, nParticles, 0, 1e5, filname)
-	shortSim1 = short_integration(intN, amin, amax, emin, emax, imax, nParticles, 0.1*totTime, 1e5, filname)
-	shortSim2 = short_integration(intN, amin, amax, emin, emax, imax, nParticles, totTime, 1e5, filname)
+        #now do short integration
+        # arguments:i, xminA, maxA, minE, maxE, maxI, nParticles, shortTime, fileName, snapshotSlice (0 = time 0, -2 = second to last, -1 = last)
+        # return sim right now
+        # we want to do 3 short integrations starting with time 0, 10%totalTime, and totalTime
+        shortSim0 = short_integration(intN, amin, amax, emin, emax, imax, 1e5, filname, 0)
+        shortSim1 = short_integration(intN, amin, amax, emin, emax, imax, 1e5, filname, -2)
+        shortSim2 = short_integration(intN, amin, amax, emin, emax, imax, 1e5, filname, -1)
 
-	return filname
+        return filname
 
 
-#multiprocessing try 2
+#multiprocessing 
+lenInt = 1
 
-args = np.arange(10)
+args = np.arange(lenInt)
 
-with mp.Pool(10) as pool:
+with mp.Pool(lenInt) as pool:
     results = pool.map(do_integration,args)
 
