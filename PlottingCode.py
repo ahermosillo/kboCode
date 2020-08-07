@@ -19,9 +19,6 @@ start_time = time.time()
 
 #maybe these will become the arguments for function, haven't decided 
 
-Nparticles = 10           #Number of test particles
-Nout = 1000                 #Number of integrations
-Ntotal = Nparticles + 5  #Number of test particles + giant planets
 
 base = 30.*(3./2.)**(2./3.) #~39AU
 #print(base)
@@ -55,7 +52,7 @@ def create_plots(dat, ST):
 
 
     #print(fileDirectories)
-    sTemp    = 'TemporaryDirectory_time_{}'.format(ST)
+    sTemp    = 'TemporaryDirectory_time_{}'.format((ST))
     iRes     = 'In_Resonance'
     nRes     = 'Not_In_Resonance'
     sInt     = 'Short_Integrations'
@@ -85,7 +82,7 @@ def create_plots(dat, ST):
     #Plotting array with resonant particles split into 3 sublists each corresponding to an orbital parameter necessary for plotting
     #semi-major axis values
     for resDat in res_plot_dat:
-        #print(resDat)
+        print(resDat)
         content = np.genfromtxt('{}'.format(resDat))
         #print(content)
         con0 = np.array([content[0]])
@@ -101,7 +98,8 @@ def create_plots(dat, ST):
         for i in con2:
             plottingArr[2].append(i) # inclination
 
-   # print("plottinArr before flatten", plottingArr[0])
+    
+    #print("plottinArr before flatten", plottingArr[0])
 
     # had to do this because was getting error for the case where there was only 1 resonant particle
     # error was happening because can't look through an array of 1 value
@@ -129,7 +127,7 @@ def create_plots(dat, ST):
             nplottingArr[1].append(e) # eccentricity
             nplottingArr[2].append(i) # inclination
 
-   # print("n plotting before flatten", nplottingArr[0])
+    #print("n plotting before flatten", nplottingArr[0])
 
     nplottingArr[0] = np.concatenate(nplottingArr[0])
     nplottingArr[1] = np.concatenate(nplottingArr[1])
@@ -188,14 +186,14 @@ def create_plots(dat, ST):
     plt.title('a vs. e, t = {:e}'.format(ST), fontsize = 24)
     plt.xlabel('semi major axis (AU)', fontsize = 18)
     plt.ylabel('eccentricity', fontsize = 18)
-    ax1.scatter(plottingArr[0],plottingArr[1],marker = '.', c='b', label = 'resonant particles')
     ax1.scatter(nplottingArr[0],nplottingArr[1],marker = '.', c='r', label = 'nonresonant particles')
+    ax1.scatter(plottingArr[0],plottingArr[1],marker = '.', c='b', label = 'resonant particles')
 
-    plt.plot(x19,eccentricity_from_peri_19, color = 'black', linestyle = 'dashed')
-    plt.plot(x24,eccentricity_from_peri_24, color = 'black', linestyle = 'dashed')
-    plt.plot(x29,eccentricity_from_peri_29, color = 'black', linestyle = 'dashed')
-    plt.plot(x34,eccentricity_from_peri_34, color = 'black', linestyle = 'dashed')
-    plt.plot(x37,eccentricity_from_peri_37, color = 'black', linestyle = 'dashed')
+    plt.plot(x19,eccentricity_from_peri_19, color = 'darkorange', linestyle = 'dashed', label = "p = 19AU")
+    plt.plot(x24,eccentricity_from_peri_24, color = 'm', linestyle = 'dashed', label = "p=23AU")
+    plt.plot(x29,eccentricity_from_peri_29, color = 'forestgreen', linestyle = 'dashed', label = "p=29AU")
+    plt.plot(x34,eccentricity_from_peri_34, color = 'grey', linestyle = 'dashed', label = "p=34AU")
+    plt.plot(x37,eccentricity_from_peri_37, color = 'blueviolet', linestyle = 'dashed', label = "p=37AU")
 
     plt.axvline(x=minA, color = 'black', linestyle = '-')
     plt.axvline(x=maxA, color = 'black', linestyle = '-')
@@ -216,8 +214,8 @@ def create_plots(dat, ST):
     plt.title('a vs. i, t = {:e}'.format(ST), fontsize = 24)
     plt.xlabel('semi major axis (AU)', fontsize = 18)
     plt.ylabel('inclination', fontsize = 18)
-    ax1.scatter(plottingArr[0],plottingArr[2],marker = '.', c='b', label = 'resonant particles')
     ax1.scatter(nplottingArr[0],nplottingArr[2],marker = '.', c='r', label = 'nonresonant particles')
+    ax1.scatter(plottingArr[0],plottingArr[2],marker = '.', c='b', label = 'resonant particles')
     plt.legend(loc = 'upper right', prop={'size': 10})
 
     plt.axvline(x=minA, color = 'black', linestyle = '-')
@@ -228,13 +226,13 @@ def create_plots(dat, ST):
     
     return ST
 
-datDate = 'Jul022020.08.23'
+datDate = 'Aug072020.05.46'
 
-create_plots(datDate, 0)
+create_plots(datDate, 0.0)
 
-create_plots(datDate, 1e7)
+create_plots(datDate, 1e5)
 
-create_plots(datDate, 1e8)
+create_plots(datDate, 1e6)
 
 
 
