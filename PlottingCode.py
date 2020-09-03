@@ -27,7 +27,7 @@ b    = 1.2                         #changed the range of a to be larger (from +-
 #minA = base - b                    #minimum semi-major axis distance     
 #maxA = base + b                    #maximum semi-major axis distance
 minA = 38.81
-maxA = 39.81
+maxA = 39.95
 minE = float(0.)                   #minimum eccentricity argument
 maxE = float(0.6)                   #maximum eccentricity argument
 minQ = (minA*(1.-maxE))            #Perihelion distance
@@ -226,13 +226,15 @@ def create_plots(dat, ST):
     
     return ST
 
-datDate = 'Aug072020.05.46'
+datDate = 'Aug192020.02.13'
 
 create_plots(datDate, 0.0)
 
-create_plots(datDate, 1e5)
+create_plots(datDate, 1e7)
 
-create_plots(datDate, 1e6)
+create_plots(datDate, 1e8)
+
+create_plots(datDate, 1e9)
 
 
 
