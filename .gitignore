@@ -1,6 +1,12 @@
 #overwrites
 *~
 
+#bin files
+*.bin
+
+#other folder for testing
+code1
+
 #simulation bin files
 Long_Integrations
 
